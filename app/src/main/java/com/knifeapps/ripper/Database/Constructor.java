@@ -8,7 +8,7 @@ public class Constructor {
     }
 
     //definitie baza de date
-    public static final String DATABASE_NAME = "Iteme";
+    public static final String DATABASE_NAME = "BazadedateRipper";
 
     public static abstract class Tip {
         public static final String INTREG = " integer not null default 0 ";
@@ -29,14 +29,16 @@ public class Constructor {
     // TABELA iteme
     public static final class Iteme implements BaseColumns {
         public static final String NUME_TABEL = "ITEME";
-        public static final String COL_ID_ANTET_TRIMITERI = "id_item";
+        public static final String COL_ID_ITEM = "id_item";
+        public static final String COL_DENUMIRE = "denumire";
         public static final String COL_DATA = "data";
     }
 
     //sql creare tabel
     public static final String SQL_CREAZA_TABEL_ITEME= (" create table if not exists " +
             Iteme.NUME_TABEL + " ( " +
-            Iteme.COL_ID_ANTET_TRIMITERI + Tip.PRIMARY_AUTO + " , " +
+            Iteme.COL_ID_ITEM + Tip.PRIMARY_AUTO + " , " +
+            Iteme.COL_DENUMIRE+ Tip.TEXT + " , "+
             Iteme.COL_DATA + Tip.TEXT
             + ")");
 

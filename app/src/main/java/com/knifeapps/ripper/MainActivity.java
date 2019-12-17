@@ -2,6 +2,7 @@ package com.knifeapps.ripper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 
+import com.knifeapps.ripper.Database.Constructor;
 import com.knifeapps.ripper.Database.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,5 +38,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        BTNSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContentValues cval = new ContentValues();
+                cval.put(Constructor.Iteme.COL_DENUMIRE,Denumire.getText().toString());
+            }
+        });
     }
 }
