@@ -4,20 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.knifeapps.ripper.Database.Constructor;
 import com.knifeapps.ripper.Database.DatabaseHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView Denumire;
     CalendarView Calendar;
-    Button BTNSave,BTNNext;
+    Button BTNSave, BTNNext;
     DatabaseHelper myDb;
 
     @Override
@@ -29,21 +35,35 @@ public class MainActivity extends AppCompatActivity {
         Calendar = findViewById(R.id.calendar_id);
         BTNSave = findViewById(R.id.btnsave);
         BTNNext = findViewById(R.id.btnnext);
-
         BTNNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,Activitate2.class);
+                Intent intent = new Intent(MainActivity.this, Activitate2.class);
                 startActivity(intent);
             }
         });
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        final String selectedDate = sdf.format(new Date(Calendar.getDate()));
+
+
+
+
 
         BTNSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ContentValues cval = new ContentValues();
-                cval.put(Constructor.Iteme.COL_DENUMIRE,Denumire.getText().toString());
+                SQLiteDatabase db = myDb.getWritableDatabase();
+                db.beginTransaction();
+                cval.put(Constructor.Iteme.COL_DENUMIRE, Denumire.getText().toString());
+                cval.put(Constructor.Iteme.COL_DATA, selectedDate);
+                db.insert(Constructor.Iteme.NUME_TABEL, null, cval);
+                Denumire.getText().clear();
+                db.setTransactionSuccessful();
+                db.endTransaction();
             }
         });
     }
 }
+
