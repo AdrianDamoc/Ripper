@@ -10,15 +10,19 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Spinner;
 
+import com.knifeapps.ripper.Database.DatabaseHelper;
+
 public class MainActivity extends AppCompatActivity {
     AutoCompleteTextView Denumire;
     CalendarView Calendar;
     Button BTNSave,BTNNext;
+    DatabaseHelper myDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myDb = new DatabaseHelper(this);
         Denumire = findViewById(R.id.spinner_denumire);
         Calendar = findViewById(R.id.calendar_id);
         BTNSave = findViewById(R.id.btnsave);
