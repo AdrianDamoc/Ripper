@@ -8,7 +8,7 @@ public class Constructor {
     }
 
     //definitie baza de date
-    public static final String DATABASE_NAME = "BazadedateRipper";
+    public static final String DATABASE_NAME = "BazadedateRipper.db";
 
     public static abstract class Tip {
         public static final String INTREG = " integer not null default 0 ";

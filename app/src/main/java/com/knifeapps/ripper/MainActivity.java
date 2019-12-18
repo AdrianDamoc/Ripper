@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.knifeapps.ripper.Database.Constructor;
@@ -21,7 +23,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
-    AutoCompleteTextView Denumire;
+    EditText Denumire;
+    TextView DataSelectata;
     CalendarView Calendar;
     Button BTNSave, BTNNext;
     DatabaseHelper myDb;
@@ -33,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
         myDb = new DatabaseHelper(this);
         Denumire = findViewById(R.id.spinner_denumire);
         Calendar = findViewById(R.id.calendar_id);
+        DataSelectata = findViewById(R.id.data_id);
         BTNSave = findViewById(R.id.btnsave);
         BTNNext = findViewById(R.id.btnnext);
+        long dataora = Calendar.getDate();
         BTNNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,21 +48,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         final String selectedDate = sdf.format(new Date(Calendar.getDate()));
 
+        Calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month,
+                                            int dayOfMonth) {
+                String d = dayOfMonth+"/"+month+"/"+year;
+              DataSelectata.setText(d);
+            }
+        });
 
 
 
         BTNSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 ContentValues cval = new ContentValues();
                 SQLiteDatabase db = myDb.getWritableDatabase();
                 db.beginTransaction();
+                if(Denumire.getText().toString().isEmpty()){
+                    Toast.makeText(MainActivity.this, "Esti bou, scrie itemu", Toast.LENGTH_SHORT).show();
+                }else
                 cval.put(Constructor.Iteme.COL_DENUMIRE, Denumire.getText().toString());
-                cval.put(Constructor.Iteme.COL_DATA, selectedDate);
+                if(DataSelectata.getText().toString().contains("DATA")){
+                    Toast.makeText(MainActivity.this, "Esti bou, alege data", Toast.LENGTH_SHORT).show();
+                }else
+                cval.put(Constructor.Iteme.COL_DATA,DataSelectata.getText().toString());
                 db.insert(Constructor.Iteme.NUME_TABEL, null, cval);
                 Denumire.getText().clear();
                 db.setTransactionSuccessful();
@@ -65,5 +88,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
 
