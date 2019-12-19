@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
-                String d = dayOfMonth+"/"+month+"/"+year;
+                String d = dayOfMonth+"/"+(month+1)+"/"+year;
               DataSelectata.setText(d);
             }
         });
