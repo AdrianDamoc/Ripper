@@ -73,18 +73,20 @@ public class MainActivity extends AppCompatActivity {
                 ContentValues cval = new ContentValues();
                 SQLiteDatabase db = myDb.getWritableDatabase();
                 db.beginTransaction();
-                if(Denumire.getText().toString().isEmpty()){
+                if (Denumire.getText().toString().isEmpty()) {
                     Toast.makeText(MainActivity.this, "Esti bou, scrie itemu", Toast.LENGTH_SHORT).show();
-                }else
-                cval.put(Constructor.Iteme.COL_DENUMIRE, Denumire.getText().toString());
-                if(DataSelectata.getText().toString().contains("DATA")){
+                } else
+                    cval.put(Constructor.Iteme.COL_DENUMIRE, Denumire.getText().toString());
+                if (DataSelectata.getText().toString().contains("DATA")) {
                     Toast.makeText(MainActivity.this, "Esti bou, alege data", Toast.LENGTH_SHORT).show();
-                }else
-                cval.put(Constructor.Iteme.COL_DATA,DataSelectata.getText().toString());
-                db.insert(Constructor.Iteme.NUME_TABEL, null, cval);
-                Denumire.getText().clear();
-                db.setTransactionSuccessful();
-                db.endTransaction();
+                } else{
+                    cval.put(Constructor.Iteme.COL_DATA, DataSelectata.getText().toString());
+                    db.insert(Constructor.Iteme.NUME_TABEL, null, cval);
+                    db.setTransactionSuccessful();
+                    db.endTransaction();
+                    Toast.makeText(MainActivity.this, "Ai inserat in baza de date!", Toast.LENGTH_SHORT).show();
+                    Denumire.getText().clear();
+                }
             }
         });
     }
